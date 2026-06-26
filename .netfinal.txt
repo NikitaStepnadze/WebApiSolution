@@ -1,0 +1,104 @@
+🧾 ფინალური გამოცდა — ASP.NET Core Web API
+შექმენით მრავალშრიანი Web API აპლიკაცია, რომელიც მუშაობს ერთ-ერთ მონაცემთა ბაზის რეჟიმზე არჩევითად:
+•	🔵 MS SQL Server 
+•	🟢 In-Memory Database 
+სტუდენტი თავად ირჩევს რომელი გამოიყენოს.
+
+
+მნიშვნელოვანი წესი (ძირითადი ლოგიკა)
+გაქვთ არჩევანი გამოიყენოთ in-memory ან MS SQL Server:
+📌 თუ აირჩევთ MS SQL Server-ს:
+•	უნდა გამოიყენოთ EF Core Migrations 
+•	უნდა იმუშაოს სრული ფუნქციონალით 
+📌 თუ აირჩევთ In-Memory-ს:
+•	არ სჭირდება migrations 
+•	მაგრამ უნდა დაამატოთ +2 დამატებითი endpoint
+Solution Structure
+WebApiSolution
+│
+├── Domain
+├── Data
+├── Services
+└── WebApiApp
+
+Domain Layer 
+Entities:
+Product
+•	Id 
+•	Name 
+•	Price 
+•	Stock 
+•	SupplierId 
+Supplier
+•	Id 
+•	Name 
+•	Address
+
+საერთო მოთხოვნები (ყველასთვის სავალდებულო)
+CRUD
+•	Create Product 
+•	Get Products 
+•	Update Product 
+•	Delete Product
+
+Relationship
+•	Product ეკუთვნის Supplier-ს 
+•	Supplier-ს აქვს რამდენიმე Product
+
+Filter
+•	პროდუქტები ფასის მიხედვით (above price) 
+
+API Endpoints (სავალდებულო)
+•	GET /api/inventory 
+•	POST /api/inventory 
+•	PUT /api/inventory/{id} 
+•	DELETE /api/inventory/{id} 
+•	GET /api/inventory/above-price/{price}
+
+დამატებითი პირობა 
+🟢 თუ სტუდენტი აირჩევს In-Memory-ს:
+👉 უნდა დაამატოს მინიმუმ +2 დამატებითი endpoint
+მაგალითად:
+•	GET /api/inventory/search?name= 
+•	GET /api/inventory/by-supplier/{id} 
+•	GET /api/inventory/low-stock/{value}
+
+
+ 
+თუ აირჩევს MS SQL Server-ს:
+👉 დამატებითი endpoint არ არის სავალდებულო
+👉 მაგრამ საჭიროა:
+•	EF Core Migrations 
+•	Database Update 
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+Services Layer
+InventoryService
+უნდა უზრუნველყოფდეს:
+•	CRUD ოპერაციებს 
+•	ფილტრაციას (price) 
+•	Supplier–Product ლოგიკას 
+
+Database Rules
+MS SQL Mode
+✔ Migrations სავალდებულოა
+✔ რეალური DB connection
+
+InMemory Mode
+✔ No migrations
+✔ სწრაფი მუშაობა
+✔ +2 extra endpoints სავალდებულო
+
+ნაწილი	ქულა
+CRUD API	25
+Service Layer	15
+Controller სტრუქტურა	10
+Supplier–Product relationship	10
+Price filter	10
+MS SQL + Migrations	20
+OR InMemory + 2 extra endpoints	20
+
+
+
+
